@@ -1,0 +1,80 @@
+<head>
+  <title>lyft</title>
+
+  <link rel="stylesheet" src="bootstrap.css">
+
+</head>
+
+<body>
+    <div class="main">
+          <h1>Welcome to Lyft!</h1>
+
+
+          {{> loginButtons}}<br>
+          {{#if currentUser}}
+            {{> requestPickup}}
+          {{/if}}
+
+         <div class="pure-g">
+             <div class="pure-u-1-2">
+              <span>{{> pendingPickups}}</span>
+             </div>
+             <div class="pure-u-1-2">
+              {{> selectedPickup}}
+             </div>
+         </div>
+     </div>
+</body>
+
+<template name="requestPickup">
+  <button class="btn btn-warning">Request Pickup</button>
+  <p>You've requested a pickup {{location}}.</p>
+
+
+</template>
+<template name="pendingPickups">
+    <h2>PendingPickups</h2>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+         {{#each pendingPickups}}
+        <tr>
+            <td>{{date}}</td>
+            <td><button class="btn btn-info" name="{{_id}}">View</button></td>
+        </tr>
+         {{/each}}
+    </tbody>
+</table>
+</template>
+
+<template name="selectedPickup">
+    <h2>Selected Pickup</h2>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Pick Up ID</th>
+            <th>User Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#with pickup}}
+        <td>{{location}}</td>
+        <td>{{date}}</td>
+        <td>{{_id}}</td>
+        <!-- <td>{{userId}}</td> -->
+            {{#with customer userId}}
+                <td>{{username}}</td>
+            {{/with}}
+        {{/with}}
+    </tbody>
+</table>
+
+</template>
