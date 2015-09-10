@@ -1,5 +1,5 @@
 Pickups = new Mongo.Collection("pickups" );
-
+// AIzaSyDkcpecru974PffjXsgZNyLKvryqmi83tY
 // console.log(Meteor.userId());
 // console.log(Meteor.user());
 if (Meteor.isClient) {
@@ -8,6 +8,11 @@ if (Meteor.isClient) {
   Session.setDefault('selectedPickup', undefined);
   Session.setDefault('iNeedHelp', false);
   Session.setDefault('iDontNeed', undefined);
+  // Session.setDefault('needersMap', "https://maps.googleapis.com/maps/api/js?key=AIzaSyDkcpecru974PffjXsgZNyLKvryqmi83tY&callback=initMap");
+
+  Meteor.startup(function() {
+      GoogleMaps.load();
+    });
 
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
@@ -25,12 +30,17 @@ if (Meteor.isClient) {
     'iNeedHelp': function () {
       return Session.get('iNeedHelp');
     },
-    "iDontNeed" : function (){
+    'iDontNeed' : function (){
       return Session.get('iDontNeed');
+    },
+  });
+
+  Template.inNeedMap.helpers({
+    'needersMap' : function(){
+
+      return Session.get( "needersMap");
     }
-  })
-
-
+  });
 
   Template.requestHelp.helpers({
     location: function () {

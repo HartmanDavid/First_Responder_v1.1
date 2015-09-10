@@ -10,17 +10,18 @@
         {{> doYouNeedHelp}}
       </span>
   {{/unless}}
-     </div>
+  </div>
     <div class="main">
-  {{#if iNeedHelp}}
-  {{> requestHelp}}
-  <h1>MAP GOES HERE</h1>
-         <div class="pure-g">
-             <div class="pure-u-1-2">
+        {{#if iNeedHelp}}
+        {{> requestHelp}}
+        {{> inNeedMap}}
+         <div class="">
+             <div class="">
               <span>{{> helpInRoute}}</span>
              </div>
          </div>
-  {{/if}}
+        {{/if}}
+    </div>
   {{#if iDontNeed}}
           {{> loginButtons}}<br>
           {{#if currentUser}}
@@ -29,7 +30,6 @@
           </form>
           {{/if}}
   {{/if}}
-     </div>
 </body>
 <template name="doYouNeedHelp">
   <h2>DO YOU NEED HELP?</h2>
@@ -88,4 +88,12 @@
     </tbody>
 </table>
 
+</template>
+
+<template name="inNeedMap">
+  <div class="outerMap">
+    <div class="innerMap">
+      {{> googleMap name="exampleMap" options=exampleMapOptions}}
+    </div>
+  </div>
 </template>
