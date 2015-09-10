@@ -6,14 +6,39 @@ if (Meteor.isClient) {
   // location starts at 0
   Session.setDefault('location', []);
   Session.setDefault('selectedPickup', undefined);
+  Session.setDefault('iNeedHelp', false);
+  // Session.setDefault('iDontNeed', undefined);
 
-  Template.requestPickup.helpers({
+  Template.doYouNeedHelp.events({
+    'click #iNeedHelp': function(){
+      console.log('clicked YES');
+      Session.set("iNeedHelp", true);
+    },
+    'click #iDontNeed': function(){
+      console.log('clicked NO');
+      Session.set('iNeedHelp', false);
+      Session.set('iDontNeed', true);
+    }
+  });
+
+  Template.body.helpers({
+    'iNeedHelp': function () {
+      return Session.get('iNeedHelp');
+    },
+    "iDontNeed" : function (){
+      return Session.get('iDontNeed');
+    }
+  })
+
+
+
+  Template.requestHelp.helpers({
     location: function () {
       return Session.get('location');
     }
   });
 
-  Template.requestPickup.events({
+  Template.requestHelp.events({
       'click button': function () {
           // get the client's coordinates when the button is clicked
           function handleSuccess(position){

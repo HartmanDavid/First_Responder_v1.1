@@ -1,18 +1,23 @@
 <head>
   <title>lyft</title>
-
   <link rel="stylesheet" src="bootstrap.css">
-
 </head>
 
 <body>
+  <div class="open-screen">
+  {{#unless iNeedHelp}}
+      <span>
+        {{> doYouNeedHelp}}
+      </span>
+  {{/unless}}
+     </div>
     <div class="main">
-          <h1>Welcome to Lyft!</h1>
-
-
+  {{#if iNeedHelp}}
+  <h1>MAP GOES HERE</h1>
+  {{> requestHelp}}
+  <h1>hello </h1>
           {{> loginButtons}}<br>
           {{#if currentUser}}
-            {{> requestPickup}}
           {{/if}}
 
          <div class="pure-g">
@@ -23,11 +28,17 @@
               {{> selectedPickup}}
              </div>
          </div>
+  {{/if}}
      </div>
 </body>
+<template name="doYouNeedHelp">
+  <h2>DO YOU NEED HELP?</h2>
+  <button class="btn btn-warning" id="iNeedHelp" type="button">YES!</button>
+  <button class="btn btn-info"  id="iDontNeed" type="button">NO</button>
+</template>
 
-<template name="requestPickup">
-  <button class="btn btn-warning">Request Pickup</button>
+<template name="requestHelp">
+  <button class="btn btn-warning">Request Help</button>
   <p>You've requested a pickup {{location}}.</p>
 
 
