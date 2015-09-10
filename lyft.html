@@ -1,5 +1,5 @@
 <head>
-  <title>lyft</title>
+  <title>Emergency Responder</title>
   <link rel="stylesheet" src="bootstrap.css">
 </head>
 
@@ -13,21 +13,21 @@
      </div>
     <div class="main">
   {{#if iNeedHelp}}
-  <h1>MAP GOES HERE</h1>
   {{> requestHelp}}
-  <h1>hello </h1>
-          {{> loginButtons}}<br>
-          {{#if currentUser}}
-          {{/if}}
-
+  <h1>MAP GOES HERE</h1>
          <div class="pure-g">
              <div class="pure-u-1-2">
-              <span>{{> pendingPickups}}</span>
-             </div>
-             <div class="pure-u-1-2">
-              {{> selectedPickup}}
+              <span>{{> helpInRoute}}</span>
              </div>
          </div>
+  {{/if}}
+  {{#if iDontNeed}}
+          {{> loginButtons}}<br>
+          {{#if currentUser}}
+          <form class="btn btn-primary" action="index.html" method="post">
+            STUFFFFFFFFFF for STUFFFFFFFF
+          </form>
+          {{/if}}
   {{/if}}
      </div>
 </body>
@@ -39,12 +39,12 @@
 
 <template name="requestHelp">
   <button class="btn btn-warning">Request Help</button>
-  <p>You've requested a pickup {{location}}.</p>
+  <p>You've requested help here {{location}}.</p>
 
 
 </template>
-<template name="pendingPickups">
-    <h2>PendingPickups</h2>
+<template name="helpInRoute">
+    <h2>Help On Its Way</h2>
     <table class="table table-striped">
     <thead>
         <tr>
@@ -54,7 +54,7 @@
     </thead>
 
     <tbody>
-         {{#each pendingPickups}}
+         {{#each helpInRoute}}
         <tr>
             <td>{{date}}</td>
             <td><button class="btn btn-info" name="{{_id}}">View</button></td>

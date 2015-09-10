@@ -7,7 +7,7 @@ if (Meteor.isClient) {
   Session.setDefault('location', []);
   Session.setDefault('selectedPickup', undefined);
   Session.setDefault('iNeedHelp', false);
-  // Session.setDefault('iDontNeed', undefined);
+  Session.setDefault('iDontNeed', undefined);
 
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
@@ -59,16 +59,16 @@ if (Meteor.isClient) {
           window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
         }
       });
-  Template.pendingPickups.helpers({
-    pendingPickups: function(){
+  Template.helpInRoute.helpers({
+    helpInRoute: function(){
         return Pickups.find({status: 'pending'});
         }
     });
 
-    Template.pendingPickups.events({
+    Template.helpInRoute.events({
         'click button': function(evt, tmpl){
-            console.log(evt);
-            console.log(moment().startOf(evt.timeSince).fromNow());
+            console.log('evt',evt);
+            console.log('moment',moment().startOf(evt.timeSince).fromNow());
             Session.set('selectedPickup', evt.target.name)
         }
     });
