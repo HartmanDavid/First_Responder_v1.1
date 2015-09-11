@@ -12,11 +12,52 @@ if (Meteor.isClient) {
   // Meteor.startup(function() {
   //     GoogleMaps.load();
   //   });
+  Template.responderView.helpers({
+    'theyInNeed': function(){
+      // var inNeed = Pickups.find({});
+      // Session.set('inNeed', inNeed);
+      // console.log('inNeed string', 'inNeed');
+      // console.log('inNeed variable', inNeed);
+      console.log(Pickups.find({status: 'pending'}));
+      console.log(Pickups.find({status: 'pending'}).collection._docs._map._id);
+      return  Pickups.find({status: 'pending'});
+      // Session.get('inNeed');
+    }
+  });
 
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
       console.log('clicked YES');
       Session.set("iNeedHelp", true);
+      function handleSuccess(position){
+        // console.log('clicked 4 location',position.coords);
+        // console.log('clicked 4 longitude',position.coords.longitude);
+        var location = [position.coords.longitude, position.coords.latitude]
+        // console.log('location from Jimmy:', location);
+        Session.set('location',  location);
+        Session.set('position',  position.coords);
+        // console.log(Session.get('location')[0]);
+        GoogleMaps.load();
+
+        Pickups.insert({
+            userId  : Meteor.userId(),
+            location: location,
+            date    : new Date(),
+            status  : 'pending'
+            });
+            GoogleMaps.ready('map', function(map){
+              marker = new google.maps.Marker({
+                position: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),
+                map: map.instance
+              });
+            });
+
+      }
+      function handleError(err){
+        console.log(err);
+      }
+      window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+//
     },
     'click #iDontNeed': function(){
       console.log('clicked NO');
@@ -41,32 +82,32 @@ if (Meteor.isClient) {
   });
 
   Template.requestHelp.events({
-      'click button': function () {
+      'click button': function () {}
           // get the client's coordinates when the button is clicked
-          function handleSuccess(position){
-            console.log('clicked 4 location',position.coords);
-            console.log('clicked 4 longitude',position.coords.longitude);
-            var location = [position.coords.longitude, position.coords.latitude]
-            console.log('location from Jimmy:', location);
-            Session.set('location',  location);
-            Session.set('position',  position.coords);
-            console.log(Session.get('location')[0]);
-
-            Pickups.insert({
-                userId  : Meteor.userId(),
-                location: location,
-                date    : new Date(),
-                status  : 'pending'
-                });
-            // console.log(Meteor.user());
-          }
-          function handleError(err){
-            console.log(err);
-          }
-          window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
-          GoogleMaps.load();
-
-        }
+        //   function handleSuccess(position){
+        //     console.log('clicked 4 location',position.coords);
+        //     console.log('clicked 4 longitude',position.coords.longitude);
+        //     var location = [position.coords.longitude, position.coords.latitude]
+        //     console.log('location from Jimmy:', location);
+        //     Session.set('location',  location);
+        //     Session.set('position',  position.coords);
+        //     console.log(Session.get('location')[0]);
+        //
+        //     Pickups.insert({
+        //         userId  : Meteor.userId(),
+        //         location: location,
+        //         date    : new Date(),
+        //         status  : 'pending'
+        //         });
+        //     // console.log(Meteor.user());
+        //   }
+        //   function handleError(err){
+        //     console.log(err);
+        //   }
+        //   window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+        //   GoogleMaps.load();
+        //
+        // }
       });
 
   Template.helpInRoute.helpers({
@@ -108,9 +149,6 @@ Template.inNeedMap.helpers({
     //   return error && error.message;
     // },
     mapOptions: function() {
-      // var latLng = Session.get('position');
-      // console.log('GeoLatLng', latLng);
-      // Initialize the map once we have the latLng.
       if (GoogleMaps.loaded() ) {
         return {
           center: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),

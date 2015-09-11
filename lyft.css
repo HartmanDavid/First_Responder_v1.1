@@ -1,7 +1,12 @@
 body {
   /*background-color: black;*/
   text-align: center;
+  margin: 0 auto;
   /*color: white;*/
+}
+th{
+  margin-left: 5px 50px;
+  text-align: center;
 }
 
 .open-screen {

@@ -25,9 +25,7 @@
   {{#if iDontNeed}}
           {{> loginButtons}}<br>
           {{#if currentUser}}
-          <form class="btn btn-primary" action="index.html" method="post">
-            STUFFFFFFFFFF for STUFFFFFFFF
-          </form>
+              {{>responderView}}
           {{/if}}
   {{/if}}
 </body>
@@ -99,6 +97,43 @@
         <h3>Geolocation failed:</h3>
         {{geolocationError}}
       {{/unless}}
+    </div>
+  </div>
+</template>
+
+<template name="responderView">
+  <div class="">
+    <div class="">
+      <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Select</th>
+              <th>Long, Lat</th>
+              <th>Date</th>
+              <th>Pick Up ID</th>
+              <th>User Name</th>
+          </tr>
+      </thead>
+      <tbody>
+      <!-- {{theyInNeed}} -->
+
+      {{#each theyInNeed}}
+      <tr>
+        <td><button type="button" id="{{_id}}" class="btn btn-default">Holder</button></td>
+        <td>{{location}}</td>
+        <td>{{date}}</td>
+        <td>{{_id}}</td>
+        <td>{{status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+      <!-- {{#unless geolocationError}}
+        {{> googleMap name="map" options=mapOptions}}
+      {{else}}
+        <h3>Geolocation failed:</h3>
+        {{geolocationError}}
+      {{/unless}} -->
     </div>
   </div>
 </template>
