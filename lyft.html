@@ -25,6 +25,7 @@
   {{#if iDontNeed}}
           {{> loginButtons}}<br>
           {{#if currentUser}}
+              {{>responseMap}}
               {{>responderView}}
           {{/if}}
   {{/if}}
@@ -119,7 +120,7 @@
 
       {{#each theyInNeed}}
       <tr>
-        <td><button type="button" id="{{_id}}" class="btn btn-default">Holder</button></td>
+        <td><button type="button" id="{{_id}}" class="btn btn-default">MAP</button></td>
         <td>{{location}}</td>
         <td>{{date}}</td>
         <td>{{_id}}</td>
@@ -136,4 +137,8 @@
       {{/unless}} -->
     </div>
   </div>
+</template>
+<template name="responseMap">
+
+
 </template>

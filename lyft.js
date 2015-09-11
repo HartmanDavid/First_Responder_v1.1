@@ -25,6 +25,20 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.responderView.events({
+    'click button':function(event, template){
+      console.log('event', event);
+      console.log('moment', moment().startOf().fromNow());
+      Session.set('responderMap', event.currentTarget.id);
+    }
+  });
+
+  Template.responseMap.helpers({
+    'responseMap': function(){
+      Pickups.find({'_id': Session.get('responderMap')});
+    }
+  })
+
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
       console.log('clicked YES');
