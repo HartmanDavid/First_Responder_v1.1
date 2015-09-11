@@ -93,7 +93,12 @@
 <template name="inNeedMap">
   <div class="outerMap">
     <div class="innerMap">
-      {{> googleMap name="exampleMap" options=exampleMapOptions}}
+      {{#unless geolocationError}}
+        {{> googleMap name="map" options=mapOptions}}
+      {{else}}
+        <h3>Geolocation failed:</h3>
+        {{geolocationError}}
+      {{/unless}}
     </div>
   </div>
 </template>
