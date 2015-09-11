@@ -50,6 +50,17 @@ if (Meteor.isClient) {
           position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
           map: map.instance
         });
+        markerResponder = new google.maps.Marker({
+          position: new google.maps.LatLng(34.016665, -118.488416),
+          map: map.instance,
+          icon: "/logo_04_43px_rect.png"
+        });
+        var bounds = new google.maps.LatLngBounds();
+        var inNeed_point = new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]);
+        var responder_point = new google.maps.LatLng(34.016665, -118.488416);
+        bounds.extend(inNeed_point);
+        bounds.extend(responder_point);
+        mapTwo.fitBounds(bounds);
       });
       GoogleMaps.load();
       }
