@@ -35,7 +35,16 @@ if (Meteor.isClient) {
 
   Template.responseMap.helpers({
     'responseMap': function(){
-      Pickups.find({'_id': Session.get('responderMap')});
+      console.log('responseMap', Session.get('responderMap'));
+
+      var heck =  Pickups.findOne({'_id': Session.get('responderMap')});
+      console.log('heck', heck);
+      // GoogleMaps.ready('map', function(map){
+      //   marker = new google.maps.Marker({
+      //     position: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),
+      //     map: map.instance
+      //   });
+      // });
     }
   })
 

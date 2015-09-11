@@ -139,6 +139,11 @@
   </div>
 </template>
 <template name="responseMap">
-
+  <div class="outerMap">
+    <div class="innerMap">
+        {{responseMap}}
+        {{> googleMap name="map2" options=mapOptions}}
+      </div>
+  </div>
 
 </template>
