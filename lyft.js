@@ -36,16 +36,23 @@ if (Meteor.isClient) {
   Template.responseMap.helpers({
     'responseMap': function(){
       console.log('responseMap', Session.get('responderMap'));
-
-      var heck =  Pickups.findOne({'_id': Session.get('responderMap')});
-      console.log('heck', heck);
+      Session.set('needsHelp',  Pickups.findOne({'_id': Session.get('responderMap')}));
+    },
+      'mapTwoOptions': function() {
+        if (GoogleMaps.loaded() ) {
+          return {
+            center: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
+            zoom: 17
+          };
+        }
       // GoogleMaps.ready('map', function(map){
       //   marker = new google.maps.Marker({
       //     position: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),
       //     map: map.instance
       //   });
       // });
-    }
+      GoogleMaps.load();
+      }
   })
 
   Template.doYouNeedHelp.events({
