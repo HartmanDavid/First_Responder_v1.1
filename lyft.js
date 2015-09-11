@@ -60,7 +60,7 @@ if (Meteor.isClient) {
         var responder_point = new google.maps.LatLng(34.016665, -118.488416);
         bounds.extend(inNeed_point);
         bounds.extend(responder_point);
-        mapTwo.fitBounds(bounds);
+        map.fitBounds(bounds);
       });
       GoogleMaps.load();
       }
