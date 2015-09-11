@@ -45,12 +45,12 @@ if (Meteor.isClient) {
             zoom: 17
           };
         }
-      // GoogleMaps.ready('map', function(map){
-      //   marker = new google.maps.Marker({
-      //     position: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),
-      //     map: map.instance
-      //   });
-      // });
+      GoogleMaps.ready('mapTwo', function(map){
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
+          map: map.instance
+        });
+      });
       GoogleMaps.load();
       }
   })

@@ -43,8 +43,8 @@
 
 </template>
 <template name="helpInRoute">
-    <h2>Help On Its Way</h2>
-    <table class="table table-striped">
+    <h2>Help Is On Its Way</h2>
+    <!-- <table class="table table-striped">
     <thead>
         <tr>
             <th>Date</th>
@@ -60,11 +60,11 @@
         </tr>
          {{/each}}
     </tbody>
-</table>
+</table> -->
 </template>
 
 <template name="selectedPickup">
-    <h2>Selected Pickup</h2>
+<!--    <h2>Selected Pickup</h2>
     <table class="table table-striped">
     <thead>
         <tr>
@@ -74,18 +74,18 @@
             <th>User Name</th>
         </tr>
     </thead>
-    <tbody>
-        {{#with pickup}}
+    <tbody> -->
+        <!-- {{#with pickup}}
         <td>{{location}}</td>
         <td>{{date}}</td>
-        <td>{{_id}}</td>
+        <td>{{_id}}</td> -->
         <!-- <td>{{userId}}</td> -->
-            {{#with customer userId}}
+            <!-- {{#with customer userId}}
                 <td>{{username}}</td>
             {{/with}}
         {{/with}}
     </tbody>
-</table>
+</table> -->
 
 </template>
 
@@ -116,7 +116,6 @@
           </tr>
       </thead>
       <tbody>
-      <!-- {{theyInNeed}} -->
 
       {{#each theyInNeed}}
       <tr>
@@ -129,12 +128,6 @@
       {{/each}}
     </tbody>
   </table>
-      <!-- {{#unless geolocationError}}
-        {{> googleMap name="map" options=mapOptions}}
-      {{else}}
-        <h3>Geolocation failed:</h3>
-        {{geolocationError}}
-      {{/unless}} -->
     </div>
   </div>
 </template>

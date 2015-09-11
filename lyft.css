@@ -1,8 +1,8 @@
 body {
-  /*background-color: black;*/
+  background-color: lightgray;
   text-align: center;
   margin: 0 auto;
-  /*color: white;*/
+  color: #413839;
 }
 th{
   margin-left: 5px 50px;
@@ -13,10 +13,18 @@ th{
   background-color: black;
   color: white;
 }
-
+.outerMap{
+  text-align: center;
+  margin: 0 auto;
+}
 .innerMap{
+    text-align: center;
+    margin: 0 auto;
     width: 900px;
     max-width: 95%;
     height: 400px;
     border: 1px solid gray;
+    box-shadow: 3px 3px 10px 2px grey,
+               -3px -3px 10px 2px grey;
+
 }
