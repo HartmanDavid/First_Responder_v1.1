@@ -53,7 +53,7 @@ if (Meteor.isClient) {
         markerResponder = new google.maps.Marker({
           position: new google.maps.LatLng(34.016665, -118.488416),
           map: map.instance,
-          icon: "/logo_04_43px_rect.png"
+          icon: "/Responder_Icon44px.png"
         });
         var bounds = new google.maps.LatLngBounds();
         var inNeed_point = new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]);
