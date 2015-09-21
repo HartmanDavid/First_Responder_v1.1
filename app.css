@@ -28,3 +28,28 @@ th{
                -3px -3px 10px 2px grey;
 
 }
+
+.phone {
+  text-align: center;
+  background-color: black;
+  margin: auto;
+}
+#ph1{
+  height: 600px;
+  width: 300px;
+  border-radius: 25px;
+  padding: 3px 3px 3px 3px;
+}
+#ph2{
+  height: 594px;
+  width: 294px;
+  border-radius: 25px;
+  background-color: #34282C;
+  padding: 60px 5px;
+}
+#ph3{
+  height: 454px;
+  width: 284px;
+  /*border-radius: 25;*/
+  background-color: #837E7C;
+}

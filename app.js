@@ -2,7 +2,6 @@ Pickups = new Mongo.Collection("pickups" );
 // console.log(Meteor.userId());
 // console.log(Meteor.user());
 if (Meteor.isClient) {
-
   Session.setDefault('location', []);
   Session.setDefault('selectedPickup', undefined);
   Session.setDefault('iNeedHelp', false);
