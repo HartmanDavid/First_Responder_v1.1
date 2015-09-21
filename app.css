@@ -31,7 +31,7 @@ th{
 
 .phone {
   text-align: center;
-  background-color: black;
+  background-color: #34282C;
   margin: auto;
 }
 #ph1{
@@ -44,12 +44,42 @@ th{
   height: 594px;
   width: 294px;
   border-radius: 25px;
-  background-color: #34282C;
-  padding: 60px 5px;
+  background-color: #000000;
+  padding: 19px 5px;
 }
 #ph3{
   height: 454px;
   width: 284px;
   /*border-radius: 25;*/
   background-color: #837E7C;
+}
+#ph3-bottom{
+  margin-top: 15px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid #34282C;
+  background-color: #0C090A;
+  background: -webkit-linear-gradient(black, #505050); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(black, #505050); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(black, #505050); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(black, #505050); /* Standard syntax */
+  padding: 16px 16px;
+}
+#ph3-bottom-box{
+  background-color: #0C090A;
+  border: 2px solid white;
+  height: 24px;
+  width: 24px;
+  border-radius: 3px;
+  opacity: 0.8;
+}
+#ph3-top-box{
+  background-color: #0C090A;
+  border: 1px solid #837E7C;
+  height: 12px;
+  width: 60px;
+  border-radius: 20%;
+  opacity: 0.8;
+  margin-bottom: 19px;
 }
