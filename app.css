@@ -1,8 +1,9 @@
 body {
   background-color: lightgray;
   text-align: center;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
   color: #413839;
+  padding-top: 5%
 }
 th{
   margin-left: 5px 50px;
@@ -12,6 +13,8 @@ th{
 .open-screen {
   background-color: black;
   color: white;
+  /*padding: auto 25%;*/
+
 }
 .outerMap{
   text-align: center;
@@ -28,6 +31,10 @@ th{
                -3px -3px 10px 2px grey;
 
 }
+#intro-div{
+  padding: auto 25%;
+}
+
 
 .phone {
   text-align: center;
@@ -52,6 +59,7 @@ th{
   width: 284px;
   /*border-radius: 25;*/
   background-color: #837E7C;
+  padding-top: 50%;
 }
 #ph3-bottom{
   margin-top: 15px;
@@ -82,4 +90,14 @@ th{
   border-radius: 20%;
   opacity: 0.8;
   margin-bottom: 19px;
+}
+#iNeedHelp{
+  width: 40%;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+#iDontNeed{
+  width: 40%;
+  margin-bottom: 5px;
+  font-size: 20px;
 }
