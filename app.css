@@ -24,11 +24,12 @@ th{
     text-align: center;
     margin: 0 auto;
     width: 900px;
-    max-width: 95%;
+    max-width: 100%;
     height: 400px;
+    max-height: 90%;
     border: 1px solid gray;
-    box-shadow: 3px 3px 10px 2px grey,
-               -3px -3px 10px 2px grey;
+    /*box-shadow: 3px 3px 10px 2px grey,*/
+               /*-3px -3px 10px 2px grey;*/
 
 }
 #intro-div{
@@ -59,7 +60,7 @@ th{
   width: 284px;
   /*border-radius: 25;*/
   background-color: #837E7C;
-  padding-top: 50%;
+  /*padding-top: 50%;*/
 }
 #ph3-bottom{
   margin-top: 15px;
