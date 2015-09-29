@@ -102,6 +102,7 @@ if (Meteor.isClient) {
     'click #iDontNeed': function(){
       console.log('clicked NO');
       Session.set('iNeedHelp', false);
+      console.log( 'log iNeedHelp', Session.get('iNeedHelp'));
       Session.set('iDontNeed', true);
     }
   });
