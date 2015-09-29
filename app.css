@@ -102,3 +102,33 @@ th{
   margin-bottom: 5px;
   font-size: 20px;
 }
+.flex{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*padding-top: 60%;*/
+  /*justify-content: center;*/
+}
+.blink {
+  /*padding-top: 40%;*/
+  color: tomato;
+  font-size: 150%;
+  font-weight: 900;
+  animation: blink 1s steps(5, start) infinite;
+  -webkit-animation: blink 1s steps(5, start) infinite;
+    }
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+#location-found{
+  color: tomato;
+  font-weight: 700;
+}

@@ -5,7 +5,7 @@ if (Meteor.isClient) {
   Session.setDefault('location', []);
   Session.setDefault('selectedPickup', undefined);
   Session.setDefault('iNeedHelp', false);
-  Session.setDefault('iDontNeed', undefined);
+  Session.setDefault('iDontNeed', false);
   // Session.setDefault('position', {"latitude": 34.0131067,'longitude': -118.4951});
 
   // Meteor.startup(function() {
@@ -69,6 +69,7 @@ if (Meteor.isClient) {
     'click #iNeedHelp': function(){
       console.log('clicked YES');
       Session.set("iNeedHelp", true);
+      Session.setDefault('iDontNeed', false);
       function handleSuccess(position){
         // console.log('clicked 4 location',position.coords);
         // console.log('clicked 4 longitude',position.coords.longitude);
@@ -101,9 +102,9 @@ if (Meteor.isClient) {
     },
     'click #iDontNeed': function(){
       console.log('clicked NO');
+      Session.set('iDontNeed', true);
       Session.set('iNeedHelp', false);
       console.log( 'log iNeedHelp', Session.get('iNeedHelp'));
-      Session.set('iDontNeed', true);
     }
   });
 
