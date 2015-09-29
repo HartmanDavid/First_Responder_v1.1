@@ -11,9 +11,11 @@
       <div class="phone" id='ph3'> <!-- BEGINNING the iPhone screen-->
         <div class="open-screen">
           {{#unless iNeedHelp}}
-            <span id="doYouNeedHelp">
-              {{> doYouNeedHelp}}
-            </span>
+            {{#unless iDontNeed}}
+              <span id="doYouNeedHelp">
+                {{> doYouNeedHelp}}
+              </span>
+            {{/unless}}
           {{/unless}}
         </div>
         <div class="main">
@@ -27,7 +29,7 @@
              </div>
             {{/if}}
         </div>
-        {{#if iDontNeed}}
+        {{#if iDontNeed }}
           {{> loginButtons}}
           <br>
           {{#if currentUser}}
@@ -53,8 +55,14 @@
 </template>
 
 <template name="requestHelp">
-  <!-- <h4>Help Is On Its Way</h4> -->
-  <p>You've requested help here {{location}}.</p>
+  {{#unless location}}
+    <div class="flex">
+      <div class="blink">Finding your GPS location</div>
+    </div>
+  {{/unless}}
+  {{#if location}}
+    <p id="location-found">Help is on its way to {{location}}.</p>
+  {{/if}}
 </template>
 <template name="helpInRoute">
 
