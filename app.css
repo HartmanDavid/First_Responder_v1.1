@@ -114,8 +114,8 @@ th{
   color: tomato;
   font-size: 150%;
   font-weight: 900;
-  animation: blink 1s steps(5, start) infinite;
-  -webkit-animation: blink 1s steps(5, start) infinite;
+  animation: blink 0.75s steps(5, start) infinite;
+  -webkit-animation: blink 0.75s steps(5, start) infinite;
     }
 @keyframes blink {
   to {

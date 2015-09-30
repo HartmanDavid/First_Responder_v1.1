@@ -13,10 +13,6 @@ if (Meteor.isClient) {
   //   });
   Template.responderView.helpers({
     'theyInNeed': function(){
-      // var inNeed = Pickups.find({});
-      // Session.set('inNeed', inNeed);
-      // console.log('inNeed string', 'inNeed');
-      // console.log('inNeed variable', inNeed);
       console.log(Pickups.find({status: 'pending'}));
       console.log(Pickups.find({status: 'pending'}).collection._docs._map._id);
       return  Pickups.find({status: 'pending'});
@@ -77,7 +73,11 @@ if (Meteor.isClient) {
         // console.log('location from Jimmy:', location);
         Session.set('location',  location);
         Session.set('position',  position.coords);
-        // console.log(Session.get('location')[0]);
+        Session.set('lat', Session.get('location')[1]);
+        var lat = Session.get('lat');
+        Session.set('lng', Session.get('location')[0]);
+        var lng = Session.get('lng');
+        // console.log('lat & lng',lat , lng);
         GoogleMaps.load();
 
         Pickups.insert({
@@ -88,7 +88,7 @@ if (Meteor.isClient) {
             });
             GoogleMaps.ready('map', function(map){
               marker = new google.maps.Marker({
-                position: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),
+                position: new google.maps.LatLng(lat,lng),
                 map: map.instance
               });
             });
