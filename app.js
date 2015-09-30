@@ -86,13 +86,19 @@ if (Meteor.isClient) {
             date    : new Date(),
             status  : 'pending'
             });
-            GoogleMaps.ready('map', function(map){
-              marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat,lng),
-                map: map.instance
-              });
-            });
-
+        GoogleMaps.ready('map', function(map){
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat,lng),
+            map: map.instance
+          });
+        });
+        reverseGeocode.getLocation(lat, lng, function(address){
+          var AddressObj = reverseGeocode.getAddrObj();
+          var address = AddressObj[0].shortName + ' ' + AddressObj[1].shortName + ' ' + AddressObj[3].shortName
+             + ' ' + AddressObj[5].shortName + ' ' + AddressObj[7].shortName;
+          Session.set('address', address);
+          console.log('add:', Session.get('address'));
+        });
       }
       function handleError(err){
         console.log(err);
@@ -119,7 +125,7 @@ if (Meteor.isClient) {
 
   Template.requestHelp.helpers({
     location: function () {
-      return Session.get('location');
+      return Session.get('address');
     }
   });
 
