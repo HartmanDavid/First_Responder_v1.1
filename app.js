@@ -242,7 +242,7 @@ Template.inNeedMap.helpers({
         var responder_point = new google.maps.LatLng(34.016665, -118.488416);
         bounds.extend(inNeed_point);
         bounds.extend(responder_point);
-        map.fitBounds(bounds); //*** Needs fix for the setting of bounds ***
+        // map.fitBounds(bounds); //*** Needs fix for the setting of bounds ***
       });
       GoogleMaps.load();
       }

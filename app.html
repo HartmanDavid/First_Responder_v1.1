@@ -34,10 +34,10 @@
           {{> loginButtons}}
           <p>***Place Holder Stuff****</p>
           <br>
-          <!-- {{#if currentUser}}
+          {{#if currentUser}}
             {{>responseMap}}
             {{>responderView}}
-          {{/if}} -->
+          {{/if}}
         {{/if}}<!-- END Profile Button-->
       </div> <!-- END the iPhone mockup-->
       <div class="phone" id='ph3-bottom'>
@@ -47,7 +47,7 @@
   </div>
   {{/unless}}
   {{#if isMobile}} <!-- Beginning of mobile view-->
-    <h1>I'm a GENIUS!</h1>
+    <h2>First Responder</h2>
       {{> loginButtons}}
       <br>
       {{#if currentUser}}
