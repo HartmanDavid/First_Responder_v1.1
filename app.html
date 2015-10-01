@@ -30,14 +30,15 @@
              </div>
             {{/if}}
         </div>
-        {{#if iDontNeed }}
+        {{#if iDontNeed }} <!-- BEGIN Profile Button-->
           {{> loginButtons}}
+          <p>***Place Holder Stuff****</p>
           <br>
-          {{#if currentUser}}
+          <!-- {{#if currentUser}}
             {{>responseMap}}
             {{>responderView}}
-          {{/if}}
-        {{/if}}
+          {{/if}} -->
+        {{/if}}<!-- END Profile Button-->
       </div> <!-- END the iPhone mockup-->
       <div class="phone" id='ph3-bottom'>
         <div class="phone" id='ph3-bottom-box'></div>
@@ -46,16 +47,24 @@
   </div>
   {{/unless}}
   {{#if isMobile}} <!-- Beginning of mobile view-->
-  <h1>I'm a good looking GENIUS baby!</h1>
+    <h1>I'm a GENIUS!</h1>
+      {{> loginButtons}}
+      <br>
+      {{#if currentUser}}
+        {{>responseMap}}
+        {{>responderView}}
+      {{/if}}
   {{/if}}<!-- END of mobile view-->
 </body>   <!-- End of body-->
+
+  <!--  ****** Templates ***** -->
 <template name="doYouNeedHelp">
   <div id="intro-div">
     <h2 id='intro-h2'>
       DO YOU NEED HELP?
     </h2>
     <button class="btn btn-warning" id="iNeedHelp" type="button">YES</button>
-    <button class="btn btn-info"  id="iDontNeed" type="button">NO</button>
+    <button class="btn btn-info"  id="iDontNeed" type="button">Profile</button>
   </div>
 </template>
 
@@ -66,7 +75,7 @@
     </div>
   {{/unless}}
   {{#if location}}
-    <p id="location-found">Help is on its way to <br> {{location}}.</p>
+    <p id="location-found">Help is on its way to you<br> {{location}}</p>
   {{/if}}
 </template>
 <template name="helpInRoute">
@@ -135,22 +144,22 @@
       <table class="table table-striped">
       <thead>
           <tr>
-              <th>Select</th>
-              <th>Long, Lat</th>
-              <th>Date</th>
-              <th>Pick Up ID</th>
-              <th>User Name</th>
+              <th></th>
+              <th>Address</th>
+              <!-- <th>Time</th>
+              <th>ID</th> -->
+              <th>Name</th>
           </tr>
       </thead>
       <tbody>
 
       {{#each theyAreInNeed}}
       <tr>
-        <td><button type="button" id="{{_id}}" class="btn btn-default">MAP</button></td>
-        <td>{{location}}</td>
-        <td>{{date}}</td>
+        <td><button type="button" id="{{_id}}" class="btn btn-default">Receive</button></td>
+        <td>{{address}}</td>
+        <!-- <td>{{date}}</td> -->
         <td>{{_id}}</td>
-        <td>{{status}}</td>
+        <!-- <td>{{status}}</td> -->
       </tr>
       {{/each}}
     </tbody>
@@ -160,7 +169,7 @@
 </template>
 <template name="responseMap">
   <div class="outerMap">
-    <div class="innerMap">
+    <div class="innerResponseMap">
         {{responseMap}}
         {{> googleMap name="mapTwo" options=mapTwoOptions}}
       </div>

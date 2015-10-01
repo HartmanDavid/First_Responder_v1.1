@@ -10,7 +10,8 @@ App.info({
   website: 'http://Call911FAST.com'
   // content: "" **** fill this in when you know where you want everthing to start
 });
-App.accessRule('https://localhost');
+// App.accessRule('https://localhost');
+App.accessRule('*');  // add this to your mobile-config.js
 App.icons({
   // iOS
   'iphone'      : 'resources/ios/Icon-60.png',

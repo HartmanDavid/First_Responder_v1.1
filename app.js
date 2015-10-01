@@ -25,66 +25,17 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.responderView.helpers({
-    'theyAreInNeed': function(){
-      console.log(Emergency.find({status: 'pending'}));
-      console.log(Emergency.find({status: 'pending'}).collection._docs._map._id);
-      return  Emergency.find({status: 'pending'});
-      // Session.get('inNeed');
-    }
-  });
-
-  Template.responderView.events({
-    'click button':function(event, template){
-      console.log('event', event);
-      console.log('moment', moment().startOf().fromNow());
-      Session.set('responderMap', event.currentTarget.id);
-    }
-  });
-
-  Template.responseMap.helpers({
-    'responseMap': function(){
-      console.log('responseMap', Session.get('responderMap'));
-      Session.set('needsHelp',  Emergency.findOne({'_id': Session.get('responderMap')}));
-    },
-      'mapTwoOptions': function() {
-        if (GoogleMaps.loaded() ) {
-          return {
-            center: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
-            zoom: 17
-          };
-        }
-      GoogleMaps.ready('mapTwo', function(map){
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
-          map: map.instance
-        });
-        markerResponder = new google.maps.Marker({
-          position: new google.maps.LatLng(34.016665, -118.488416),
-          map: map.instance,
-          icon: "/Responder_Icon44px.png"
-        });
-        var bounds = new google.maps.LatLngBounds();
-        var inNeed_point = new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]);
-        var responder_point = new google.maps.LatLng(34.016665, -118.488416);
-        bounds.extend(inNeed_point);
-        bounds.extend(responder_point);
-        map.fitBounds(bounds);
-      });
-      GoogleMaps.load();
-      }
-  })
-
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
       console.log('clicked YES');
+      console.log('moment', moment().startOf().fromNow());
       Session.set("iNeedHelp", true);
-      Session.setDefault('iDontNeed', false);
+      Session.set('iDontNeed', false);
       function handleSuccess(position){
         // console.log('clicked 4 location',position.coords);
         // console.log('clicked 4 longitude',position.coords.longitude);
         var location = [position.coords.longitude, position.coords.latitude]
-        // console.log('location from Jimmy:', location);
+        // console.log('location', location);
         Session.set('location',  location);
         Session.set('position',  position.coords);
         Session.set('lat', Session.get('location')[1]);
@@ -94,24 +45,28 @@ if (Meteor.isClient) {
         // console.log('lat & lng',lat , lng);
         GoogleMaps.load();
 
-        Emergency.insert({
-            userId  : Meteor.userId(),
-            location: location,
-            date    : new Date(),
-            status  : 'pending'
-            });
-        GoogleMaps.ready('map', function(map){
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(lat,lng),
-            map: map.instance
-          });
-        });
         reverseGeocode.getLocation(lat, lng, function(address){
           var AddressObj = reverseGeocode.getAddrObj();
           var address = AddressObj[0].shortName + ' ' + AddressObj[1].shortName + ' ' + AddressObj[2].shortName
              + ' ' + AddressObj[4].shortName + ' ' + AddressObj[6].shortName;
           Session.set('address', address);
           console.log('add:', AddressObj);
+        });
+        var shortAddress = Session.get('address'); //*** lets see if this works here ***
+        console.log( 'shortAddress', shortAddress);
+        Emergency.insert({
+            userId  : Meteor.userId(),
+            location: location,
+            address : 'shortAddress',
+            date    : new Date(),
+            status  : 'pending'
+            });
+        console.log(Emergency.find());
+        GoogleMaps.ready('map', function(map){
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat,lng),
+            map: map.instance
+          });
         });
       }
       function handleError(err){
@@ -242,6 +197,56 @@ Template.inNeedMap.helpers({
     //   });
     // });
   });
+
+  Template.responderView.helpers({
+    'theyAreInNeed': function(){
+      console.log(Emergency.find({status: 'pending'}));
+      console.log(Emergency.find({status: 'pending'}).collection._docs._map._id);
+      return  Emergency.find({status: 'pending'});
+      // Session.get('inNeed');
+    }
+  });
+
+  Template.responderView.events({
+    'click button':function(event, template){
+      console.log('event', event);
+      // console.log('moment', moment().startOf().fromNow());
+      Session.set('responderMap', event.currentTarget.id);
+    }
+  });
+
+  Template.responseMap.helpers({
+    'responseMap': function(){
+      console.log('responseMap', Session.get('responderMap'));
+      Session.set('needsHelp',  Emergency.findOne({'_id': Session.get('responderMap')}));
+    },
+      'mapTwoOptions': function() {
+        if (GoogleMaps.loaded() ) {
+          return {
+            center: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
+            zoom: 17
+          };
+        }
+      GoogleMaps.ready('mapTwo', function(map){
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
+          map: map.instance
+        });
+        markerResponder = new google.maps.Marker({
+          position: new google.maps.LatLng(34.016665, -118.488416),
+          map: map.instance,
+          icon: "/Responder_Icon44px.png"
+        });
+        var bounds = new google.maps.LatLngBounds();
+        var inNeed_point = new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]);
+        var responder_point = new google.maps.LatLng(34.016665, -118.488416);
+        bounds.extend(inNeed_point);
+        bounds.extend(responder_point);
+        map.fitBounds(bounds); //*** Needs fix for the setting of bounds ***
+      });
+      GoogleMaps.load();
+      }
+  })
 
 }
 if (Meteor.isServer) {
