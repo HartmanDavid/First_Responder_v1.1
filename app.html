@@ -2,13 +2,14 @@
   <title>Emergency Responder</title>
   <link rel="stylesheet" src="bootstrap.css">
 </head>
-<body>
+<body> <!-- Beginning of body-->
+  {{#unless isMobile}}
   <div class="phone" id='ph1'>
     <div class="phone" id='ph2'>
       <div class="phone" id='ph3-top-box'></div>
       <div class="phone" id='ph3-top'>
       </div>
-      <div class="phone" id='ph3'> <!-- BEGINNING the iPhone screen-->
+      <div class="phone" id='ph3'> <!-- BEGINNING the iPhone mockup-->
         <div class="open-screen">
           {{#unless iNeedHelp}}
             {{#unless iDontNeed}}
@@ -37,13 +38,17 @@
             {{>responderView}}
           {{/if}}
         {{/if}}
-      </div> <!-- END the iPhone screen-->
+      </div> <!-- END the iPhone mockup-->
       <div class="phone" id='ph3-bottom'>
         <div class="phone" id='ph3-bottom-box'></div>
       </div>
     </div>
   </div>
-</body>
+  {{/unless}}
+  {{#if isMobile}} <!-- Beginning of mobile view-->
+  <h1>I'm a good looking GENIUS baby!</h1>
+  {{/if}}<!-- END of mobile view-->
+</body>   <!-- End of body-->
 <template name="doYouNeedHelp">
   <div id="intro-div">
     <h2 id='intro-h2'>
@@ -139,7 +144,7 @@
       </thead>
       <tbody>
 
-      {{#each theyInNeed}}
+      {{#each theyAreInNeed}}
       <tr>
         <td><button type="button" id="{{_id}}" class="btn btn-default">MAP</button></td>
         <td>{{location}}</td>

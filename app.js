@@ -1,4 +1,4 @@
-Pickups = new Mongo.Collection("pickups" );
+Emergency = new Mongo.Collection("emergency" );
 // console.log(Meteor.userId());
 // console.log(Meteor.user());
 if (Meteor.isClient) {
@@ -6,16 +6,30 @@ if (Meteor.isClient) {
   Session.setDefault('selectedPickup', undefined);
   Session.setDefault('iNeedHelp', false);
   Session.setDefault('iDontNeed', false);
+  Session.setDefault('isMobile', false);
   // Session.setDefault('position', {"latitude": 34.0131067,'longitude': -118.4951});
 
-  // Meteor.startup(function() {
-  //     GoogleMaps.load();
-  //   });
+  Template.body.helpers({
+    'iNeedHelp': function () {
+      return Session.get('iNeedHelp');
+    },
+    'iDontNeed' : function (){
+      return Session.get('iDontNeed');
+    },
+    'isMobile' : function (){
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        Session.set('isMobile', true);
+        console.log('THIS IS A MOBILE DEVICE :-)');
+      }
+      return Session.get('isMobile');
+    }
+  });
+
   Template.responderView.helpers({
-    'theyInNeed': function(){
-      console.log(Pickups.find({status: 'pending'}));
-      console.log(Pickups.find({status: 'pending'}).collection._docs._map._id);
-      return  Pickups.find({status: 'pending'});
+    'theyAreInNeed': function(){
+      console.log(Emergency.find({status: 'pending'}));
+      console.log(Emergency.find({status: 'pending'}).collection._docs._map._id);
+      return  Emergency.find({status: 'pending'});
       // Session.get('inNeed');
     }
   });
@@ -31,7 +45,7 @@ if (Meteor.isClient) {
   Template.responseMap.helpers({
     'responseMap': function(){
       console.log('responseMap', Session.get('responderMap'));
-      Session.set('needsHelp',  Pickups.findOne({'_id': Session.get('responderMap')}));
+      Session.set('needsHelp',  Emergency.findOne({'_id': Session.get('responderMap')}));
     },
       'mapTwoOptions': function() {
         if (GoogleMaps.loaded() ) {
@@ -80,7 +94,7 @@ if (Meteor.isClient) {
         // console.log('lat & lng',lat , lng);
         GoogleMaps.load();
 
-        Pickups.insert({
+        Emergency.insert({
             userId  : Meteor.userId(),
             location: location,
             date    : new Date(),
@@ -94,10 +108,10 @@ if (Meteor.isClient) {
         });
         reverseGeocode.getLocation(lat, lng, function(address){
           var AddressObj = reverseGeocode.getAddrObj();
-          var address = AddressObj[0].shortName + ' ' + AddressObj[1].shortName + ' ' + AddressObj[3].shortName
-             + ' ' + AddressObj[5].shortName + ' ' + AddressObj[7].shortName;
+          var address = AddressObj[0].shortName + ' ' + AddressObj[1].shortName + ' ' + AddressObj[2].shortName
+             + ' ' + AddressObj[4].shortName + ' ' + AddressObj[6].shortName;
           Session.set('address', address);
-          console.log('add:', Session.get('address'));
+          console.log('add:', AddressObj);
         });
       }
       function handleError(err){
@@ -114,14 +128,6 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.body.helpers({
-    'iNeedHelp': function () {
-      return Session.get('iNeedHelp');
-    },
-    'iDontNeed' : function (){
-      return Session.get('iDontNeed');
-    },
-  });
 
   Template.requestHelp.helpers({
     location: function () {
@@ -141,7 +147,7 @@ if (Meteor.isClient) {
         //     Session.set('position',  position.coords);
         //     console.log(Session.get('location')[0]);
         //
-        //     Pickups.insert({
+        //     Emergency.insert({
         //         userId  : Meteor.userId(),
         //         location: location,
         //         date    : new Date(),
@@ -160,7 +166,7 @@ if (Meteor.isClient) {
 
   Template.helpInRoute.helpers({
     helpInRoute: function(){
-        return Pickups.find({status: 'pending'});
+        return Emergency.find({status: 'pending'});
         }
     });
 
@@ -243,27 +249,9 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 }
-// if (Meteor.isCordova){
-//   Template.requestPickup.events({
-//       'click button': function () {
-//           // get the client's coordinates when the button is clicked
-//           function handleSuccess(position){
-//             console.log(position.coords);
-//             var location = [position.coords.longitude, position.coords.latitude]
-//             Session.set('location',  location);
-//             Pickups.insert({
-//                 userId  : Meteor.userId(),
-//                 location: location,
-//                 date    : new Date(),
-//                 status  : 'pending'
-//                 });
-//             // console.log(Meteor.user());
-//           }
-//           function handleError(err){
-//             console.log(err);
-//           }
-//           window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
-//         }
-//       });
-//
-// }
+if(Meteor.isCordova){
+
+  console.log(Session.get('isCordova'));
+
+    // code goes here
+}
