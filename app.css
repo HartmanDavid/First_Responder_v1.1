@@ -32,6 +32,18 @@ th{
                /*-3px -3px 10px 2px grey;*/
 
 }
+.innerResponseMap{
+    text-align: center;
+    margin: 0 auto;
+    width: 900px;
+    max-width: 99%;
+    height: 100px;
+    max-height: 10%;
+    /*border: 1px solid gray;*/
+    /*box-shadow: 3px 3px 10px 2px grey,*/
+               /*-3px -3px 10px 2px grey;*/
+
+}
 #intro-div{
   padding: auto 25%;
 }
@@ -114,8 +126,8 @@ th{
   color: tomato;
   font-size: 150%;
   font-weight: 900;
-  animation: blink 1s steps(5, start) infinite;
-  -webkit-animation: blink 1s steps(5, start) infinite;
+  animation: blink 0.75s steps(5, start) infinite;
+  -webkit-animation: blink 0.75s steps(5, start) infinite;
     }
 @keyframes blink {
   to {

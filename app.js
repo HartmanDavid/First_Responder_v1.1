@@ -1,4 +1,4 @@
-Pickups = new Mongo.Collection("pickups" );
+Emergency = new Mongo.Collection("emergency" );
 // console.log(Meteor.userId());
 // console.log(Meteor.user());
 if (Meteor.isClient) {
@@ -6,93 +6,68 @@ if (Meteor.isClient) {
   Session.setDefault('selectedPickup', undefined);
   Session.setDefault('iNeedHelp', false);
   Session.setDefault('iDontNeed', false);
+  Session.setDefault('isMobile', false);
   // Session.setDefault('position', {"latitude": 34.0131067,'longitude': -118.4951});
 
-  // Meteor.startup(function() {
-  //     GoogleMaps.load();
-  //   });
-  Template.responderView.helpers({
-    'theyInNeed': function(){
-      // var inNeed = Pickups.find({});
-      // Session.set('inNeed', inNeed);
-      // console.log('inNeed string', 'inNeed');
-      // console.log('inNeed variable', inNeed);
-      console.log(Pickups.find({status: 'pending'}));
-      console.log(Pickups.find({status: 'pending'}).collection._docs._map._id);
-      return  Pickups.find({status: 'pending'});
-      // Session.get('inNeed');
-    }
-  });
-
-  Template.responderView.events({
-    'click button':function(event, template){
-      console.log('event', event);
-      console.log('moment', moment().startOf().fromNow());
-      Session.set('responderMap', event.currentTarget.id);
-    }
-  });
-
-  Template.responseMap.helpers({
-    'responseMap': function(){
-      console.log('responseMap', Session.get('responderMap'));
-      Session.set('needsHelp',  Pickups.findOne({'_id': Session.get('responderMap')}));
+  Template.body.helpers({
+    'iNeedHelp': function () {
+      return Session.get('iNeedHelp');
     },
-      'mapTwoOptions': function() {
-        if (GoogleMaps.loaded() ) {
-          return {
-            center: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
-            zoom: 17
-          };
-        }
-      GoogleMaps.ready('mapTwo', function(map){
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
-          map: map.instance
-        });
-        markerResponder = new google.maps.Marker({
-          position: new google.maps.LatLng(34.016665, -118.488416),
-          map: map.instance,
-          icon: "/Responder_Icon44px.png"
-        });
-        var bounds = new google.maps.LatLngBounds();
-        var inNeed_point = new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]);
-        var responder_point = new google.maps.LatLng(34.016665, -118.488416);
-        bounds.extend(inNeed_point);
-        bounds.extend(responder_point);
-        map.fitBounds(bounds);
-      });
-      GoogleMaps.load();
+    'iDontNeed' : function (){
+      return Session.get('iDontNeed');
+    },
+    'isMobile' : function (){
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        Session.set('isMobile', true);
+        console.log('THIS IS A MOBILE DEVICE :-)');
       }
-  })
+      return Session.get('isMobile');
+    }
+  });
 
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
       console.log('clicked YES');
+      console.log('moment', moment().startOf().fromNow());
       Session.set("iNeedHelp", true);
-      Session.setDefault('iDontNeed', false);
+      Session.set('iDontNeed', false);
       function handleSuccess(position){
         // console.log('clicked 4 location',position.coords);
         // console.log('clicked 4 longitude',position.coords.longitude);
         var location = [position.coords.longitude, position.coords.latitude]
-        // console.log('location from Jimmy:', location);
+        // console.log('location', location);
         Session.set('location',  location);
         Session.set('position',  position.coords);
-        // console.log(Session.get('location')[0]);
+        Session.set('lat', Session.get('location')[1]);
+        var lat = Session.get('lat');
+        Session.set('lng', Session.get('location')[0]);
+        var lng = Session.get('lng');
+        // console.log('lat & lng',lat , lng);
         GoogleMaps.load();
 
-        Pickups.insert({
+        reverseGeocode.getLocation(lat, lng, function(address){
+          var AddressObj = reverseGeocode.getAddrObj();
+          var address = AddressObj[0].shortName + ' ' + AddressObj[1].shortName + ' ' + AddressObj[2].shortName
+             + ' ' + AddressObj[4].shortName + ' ' + AddressObj[6].shortName;
+          Session.set('address', address);
+          console.log('add:', AddressObj);
+        });
+        var shortAddress = Session.get('address'); //*** lets see if this works here ***
+        console.log( 'shortAddress', shortAddress);
+        Emergency.insert({
             userId  : Meteor.userId(),
             location: location,
+            address : 'shortAddress',
             date    : new Date(),
             status  : 'pending'
             });
-            GoogleMaps.ready('map', function(map){
-              marker = new google.maps.Marker({
-                position: new google.maps.LatLng(Session.get('location')[1], Session.get('location')[0]),
-                map: map.instance
-              });
-            });
-
+        console.log(Emergency.find());
+        GoogleMaps.ready('map', function(map){
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat,lng),
+            map: map.instance
+          });
+        });
       }
       function handleError(err){
         console.log(err);
@@ -108,18 +83,10 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.body.helpers({
-    'iNeedHelp': function () {
-      return Session.get('iNeedHelp');
-    },
-    'iDontNeed' : function (){
-      return Session.get('iDontNeed');
-    },
-  });
 
   Template.requestHelp.helpers({
     location: function () {
-      return Session.get('location');
+      return Session.get('address');
     }
   });
 
@@ -135,7 +102,7 @@ if (Meteor.isClient) {
         //     Session.set('position',  position.coords);
         //     console.log(Session.get('location')[0]);
         //
-        //     Pickups.insert({
+        //     Emergency.insert({
         //         userId  : Meteor.userId(),
         //         location: location,
         //         date    : new Date(),
@@ -154,7 +121,7 @@ if (Meteor.isClient) {
 
   Template.helpInRoute.helpers({
     helpInRoute: function(){
-        return Pickups.find({status: 'pending'});
+        return Emergency.find({status: 'pending'});
         }
     });
 
@@ -231,33 +198,65 @@ Template.inNeedMap.helpers({
     // });
   });
 
+  Template.responderView.helpers({
+    'theyAreInNeed': function(){
+      console.log(Emergency.find({status: 'pending'}));
+      console.log(Emergency.find({status: 'pending'}).collection._docs._map._id);
+      return  Emergency.find({status: 'pending'});
+      // Session.get('inNeed');
+    }
+  });
+
+  Template.responderView.events({
+    'click button':function(event, template){
+      console.log('event', event);
+      // console.log('moment', moment().startOf().fromNow());
+      Session.set('responderMap', event.currentTarget.id);
+    }
+  });
+
+  Template.responseMap.helpers({
+    'responseMap': function(){
+      console.log('responseMap', Session.get('responderMap'));
+      Session.set('needsHelp',  Emergency.findOne({'_id': Session.get('responderMap')}));
+    },
+      'mapTwoOptions': function() {
+        if (GoogleMaps.loaded() ) {
+          return {
+            center: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
+            zoom: 17
+          };
+        }
+      GoogleMaps.ready('mapTwo', function(map){
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
+          map: map.instance
+        });
+        markerResponder = new google.maps.Marker({
+          position: new google.maps.LatLng(34.016665, -118.488416),
+          map: map.instance,
+          icon: "/Responder_Icon44px.png"
+        });
+        var bounds = new google.maps.LatLngBounds();
+        var inNeed_point = new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]);
+        var responder_point = new google.maps.LatLng(34.016665, -118.488416);
+        bounds.extend(inNeed_point);
+        bounds.extend(responder_point);
+        // map.fitBounds(bounds); //*** Needs fix for the setting of bounds ***
+      });
+      GoogleMaps.load();
+      }
+  })
+
 }
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
 }
-// if (Meteor.isCordova){
-//   Template.requestPickup.events({
-//       'click button': function () {
-//           // get the client's coordinates when the button is clicked
-//           function handleSuccess(position){
-//             console.log(position.coords);
-//             var location = [position.coords.longitude, position.coords.latitude]
-//             Session.set('location',  location);
-//             Pickups.insert({
-//                 userId  : Meteor.userId(),
-//                 location: location,
-//                 date    : new Date(),
-//                 status  : 'pending'
-//                 });
-//             // console.log(Meteor.user());
-//           }
-//           function handleError(err){
-//             console.log(err);
-//           }
-//           window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
-//         }
-//       });
-//
-// }
+if(Meteor.isCordova){
+
+  console.log(Session.get('isCordova'));
+
+    // code goes here
+}
