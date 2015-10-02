@@ -1086,7 +1086,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #fff;
+  background-color: lightgray;
 }
 input,
 button,
@@ -2973,6 +2973,8 @@ select[multiple].input-lg {
   min-height: 27px;
 }
 .form-horizontal .form-group {
+  padding-right: 3px;
+  padding-left: 3px;
   margin-right: -15px;
   margin-left: -15px;
 }

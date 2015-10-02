@@ -32,12 +32,12 @@
         </div>
         {{#if iDontNeed }} <!-- BEGIN Profile Button-->
           {{> loginButtons}}
-          <p>***Place Holder Stuff****</p>
+          {{>userProfile}}
           <br>
-          {{#if currentUser}}
+          <!-- {{#if currentUser}}
             {{>responseMap}}
             {{>responderView}}
-          {{/if}}
+          {{/if}} -->
         {{/if}}<!-- END Profile Button-->
       </div> <!-- END the iPhone mockup-->
       <div class="phone" id='ph3-bottom'>
@@ -80,48 +80,55 @@
 </template>
 <template name="helpInRoute">
 
-    <!-- <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-
-    <tbody>
-         {{#each helpInRoute}}
-        <tr>
-            <td>{{date}}</td>
-            <td><button class="btn btn-info" name="{{_id}}">View</button></td>
-        </tr>
-         {{/each}}
-    </tbody>
-</table> -->
 </template>
 
-<template name="selectedPickup">
-<!--    <h2>Selected Pickup</h2>
-    <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Location</th>
-            <th>Date</th>
-            <th>Pick Up ID</th>
-            <th>User Name</th>
-        </tr>
-    </thead>
-    <tbody> -->
-        <!-- {{#with pickup}}
-        <td>{{location}}</td>
-        <td>{{date}}</td>
-        <td>{{_id}}</td> -->
-        <!-- <td>{{userId}}</td> -->
-            <!-- {{#with customer userId}}
-                <td>{{username}}</td>
-            {{/with}}
-        {{/with}}
-    </tbody>
-</table> -->
+<template name="userProfile"> <!-- Beginning of the user form-->
+  <form class="form-horizontal">
+  <div class="form-group">
+    <label  class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-10">
+      <input type="name" class="form-control" placeholder="First Name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label  class="col-sm-2 control-label">Age</label>
+    <div class="col-sm-10">
+      <input type="age" class="form-control" placeholder="Age">
+    </div>
+  </div>
+  <div class="form-group">
+    <label  class="col-sm-2 control-label">Sex</label>
+    <div class="col-sm-10">
+      <input type="sex" class="form-control" placeholder="Sex">
+    </div>
+  </div>
+  <div class="form-group">
+    <label  class="col-sm-2 control-label">Age</label>
+    <div class="col-sm-10">
+      <input type="age" class="form-control" placeholder="Age">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Serious Health Issue?
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label  class="col-sm-2 control-label">Type</label>
+    <div class="col-sm-10">
+      <input type="condition" class="form-control" placeholder="Medical Condition">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-info">Submit</button>
+    </div>
+  </div>
+</form>
 
 </template>
 
@@ -148,7 +155,7 @@
               <th>Address</th>
               <!-- <th>Time</th>
               <th>ID</th> -->
-              <th>Name</th>
+              <th>ID</th>
           </tr>
       </thead>
       <tbody>
@@ -167,12 +174,18 @@
     </div>
   </div>
 </template>
-<template name="responseMap">
+<template name="responseMap"> <!-- ** staring here for the GPS changes-->
   <div class="outerMap">
     <div class="innerResponseMap">
-        {{responseMap}}
-        {{> googleMap name="mapTwo" options=mapTwoOptions}}
+        {{#unless geolocationError}}
+          {{responseMap}}
+          {{> googleMap name="mapTwo" options=mapTwoOptions}}
+        {{else}}
+          Geolocation failed: {{geolocationError}}
+        {{/unless}}
       </div>
   </div>
+</template>
+<template name="selectedPickup">
 
 </template>

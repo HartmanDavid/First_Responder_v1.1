@@ -28,7 +28,7 @@ if (Meteor.isClient) {
   Template.doYouNeedHelp.events({
     'click #iNeedHelp': function(){
       console.log('clicked YES');
-      console.log('moment', moment().startOf().fromNow());
+      console.log('moment !!!!', moment().startOf().fromNow());
       Session.set("iNeedHelp", true);
       Session.set('iDontNeed', false);
       function handleSuccess(position){
@@ -127,8 +127,8 @@ if (Meteor.isClient) {
 
     Template.helpInRoute.events({
         'click button': function(evt, tmpl){
-            console.log('evt',evt);
-            console.log('moment', moment().startOf(evt.timeSince).fromNow());
+            console.log('evt *****',evt);
+            console.log('moment +++++', moment().startOf(evt.timeSince).fromNow());
             Session.set('selectedPickup', evt.target.name)
         }
     });
@@ -143,7 +143,7 @@ if (Meteor.isClient) {
                 return Meteor.users.findOne(userId);
             }
             ,timeSince: function(){
-                console.log(moment());
+                console.log('the moment fn',moment());
             }
         });
 
@@ -207,16 +207,20 @@ Template.inNeedMap.helpers({
     }
   });
 
-  Template.responderView.events({
+  Template.responderView.events({ //Button to select the Emergency info
     'click button':function(event, template){
-      console.log('event', event);
+      console.log('event!!!!', event.currentTarget);
       // console.log('moment', moment().startOf().fromNow());
       Session.set('responderMap', event.currentTarget.id);
     }
   });
 
   Template.responseMap.helpers({
-    'responseMap': function(){
+    // 'geolocationError': function() { //Check for geolocation error
+    //   var error = Geolocation.error();
+    //   return error && error.message;
+    // },
+    'responseMap': function(){ // Pulls in the GPS info about the Emergency that needs help
       console.log('responseMap', Session.get('responderMap'));
       Session.set('needsHelp',  Emergency.findOne({'_id': Session.get('responderMap')}));
     },
@@ -227,12 +231,12 @@ Template.inNeedMap.helpers({
             zoom: 17
           };
         }
-      GoogleMaps.ready('mapTwo', function(map){
+      GoogleMaps.ready('mapTwo', function(map){//maker of the Emergency
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(Session.get('needsHelp').location[1],Session.get('needsHelp').location[0]),
           map: map.instance
         });
-        markerResponder = new google.maps.Marker({
+        markerResponder = new google.maps.Marker({ //static marker of the first responder
           position: new google.maps.LatLng(34.016665, -118.488416),
           map: map.instance,
           icon: "/Responder_Icon44px.png"
